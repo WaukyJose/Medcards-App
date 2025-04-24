@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Box Review</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+        background: #f8f9fa;
+      }
+      .card {
+        background: #fde047;
+        padding: 1.5rem;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .answer {
+        margin-top: 1rem;
+        display: none;
+        background: #fff;
+        padding: 1rem;
+        border-radius: 8px;
+      }
+      button {
+        margin-top: 1rem;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .btn-row {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 1rem;
+      }
+      .info {
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
+    </style>
+    <script>
+      function reveal() {
+        document.getElementById("reveal").style.display = "block";
+        document.getElementById("reveal-btn").style.display = "none";
+      }
+    </script>
+  </head>
+  <body>
+    <h1 style="text-align: center">📦 Box {{ box_number }}</h1>
+
+    {% if card %}
+    <div class="info"><strong>{{ remaining }}</strong> Cards left in box.</div>
+
+    <div class="card">
+      <h2>{{ card.term }}</h2>
+
+      <button id="reveal-btn" onclick="reveal()">▶️ Reveal Answer</button>
+
+      <div id="reveal" class="answer">
+        <p><strong>Answer:</strong> {{ card.definition }}</p>
+        <p><em>{{ card.category }}</em></p>
+
+        {% if card.image %}
+        <div>
+          <img src="{{ card.image.url }}" alt="Image for {{ card.term }}" />
+        </div>
+        {% endif %}
+
+        <div class="btn-row">
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="promote" />
+            <button style="background: #22c55e; color: white">
+              👍 I knew it
+            </button>
+          </form>
+
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="demote" />
+            <button style="background: #ef4444; color: white">
+              👎 I forgot
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div style="text-align: center">
+      <h2>🎉 You've finished this box!</h2>
+      <a href="{% url 'flashcard_list' %}">
+        <button>🔙 Back to All Cards</button>
+      </a>
+    </div>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,93 @@
+{% load box_filters %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Medical Flashcards</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f8f9fa; }
+    .top-bar { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 20px; }
+    .card { background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+    .term { font-weight: bold; font-size: 1.2rem; }
+    .category { font-style: italic; color: gray; }
+    button { cursor: pointer; margin-right: 5px; }
+    .box-edit { font-size: 0.8rem; margin-left: 4px; }
+    img { max-width: 100%; border-radius: 8px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <header style="text-align: center; padding: 1rem; background-color: #f0f0f0; border-bottom: 1px solid #ccc;">
+    <img src="/media/card_images/espe-seeklogo.png" alt="ESPE Logo" style="height: 60px;">
+    <h1 style="margin: 0.5rem 0 0 0; font-size: 2rem;">
+      Medical Flashcards App by <span style="color: #2563eb;">Student Name</span>
+    </h1>
+  </header>
+  <p></p>
+<div class="top-bar">
+  <a href="{% url 'create_flashcard' %}">
+    <button style="background: #a78bfa; color: white; border: none; padding: 8px 12px; border-radius: 5px;">✨ Create New Card</button>
+  </a>
+</div>
+
+<div style="margin-bottom: 20px;">
+  <a href="{% url 'flashcard_list' %}">
+    <button>📁 All Cards ({{ all_count|default:'0' }})</button>
+  </a>
+  {% for count in box_counts %}
+    <a href="{% url 'box_view' forloop.counter %}">
+      <button {% if active_box == forloop.counter %}style="background:#cce5ff"{% endif %}>
+        {% if box_labels %}
+          📦 {{ box_labels|dict_get:forloop.counter }} ({{ count }})
+        {% else %}
+          📦 Box {{ forloop.counter }} ({{ count }})
+        {% endif %}
+      </button>
+    </a>
+    <a class="box-edit" href="{% url 'edit_box_label' forloop.counter %}">✏️</a>
+  {% endfor %}
+</div>
+
+{% for box in boxes %}
+  {% if active_box %}
+    <h2>📦 {{ box_labels|dict_get:active_box }} <a class="box-edit" href="{% url 'edit_box_label' active_box %}">✏️</a></h2>
+  {% else %}
+    <h2>📦 {{ box_labels|dict_get:forloop.counter }} <a class="box-edit" href="{% url 'edit_box_label' forloop.counter %}">✏️</a></h2>
+  {% endif %}
+
+  {% for card in box %}
+    <div class="card">
+      <div class="term">{{ card.term }}</div>
+      <div>{{ card.definition }}</div>
+      <div class="category">{{ card.category }}</div>
+
+      {% if card.image %}
+        <div>
+          <img src="{{ card.image.url }}" alt="Image for {{ card.term }}">
+        </div>
+      {% endif %}
+      {% if card.audio %}
+        <audio controls>
+          <source src="{{ card.audio.url }}" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      {% endif %}
+
+      <form action="{% url 'promote_card' card.id %}" method="post" style="display:inline;">{% csrf_token %}
+        <button>👍 I knew it</button>
+      </form>
+
+      <form action="{% url 'demote_card' card.id %}" method="post" style="display:inline;">{% csrf_token %}
+        <button>👎 I forgot</button>
+      </form>
+
+      <a href="{% url 'edit_flashcard' card.id %}">
+        <button style="background: #a78bfa; color: white; border: none; padding: 6px 10px; margin-top: 8px; border-radius: 5px;">✏️ Edit Card</button>
+      </a>
+    </div>
+  {% endfor %}
+{% endfor %}
+
+</body>
+<footer style="text-align: center; padding: 1rem; margin-top: 2rem; font-size: 0.9rem; background-color: #f0f0f0; border-top: 1px solid #ccc;">
+  Designed by Dr. Jose Lema Alarcón & <strong>Student Name</strong> 2025©
+</footer>
+</html>

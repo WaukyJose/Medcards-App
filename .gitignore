@@ -1,0 +1,7 @@
+.qodo
+*.pyc
+__pycache__/
+*.sqlite3
+/media/
+/venv/
+.env

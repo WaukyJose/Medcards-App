@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Box Label</title>
+  </head>
+  <body>
+    <h1>✏️ Rename Box {{ box_number }}</h1>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'flashcard_list' %}">← Cancel</a>
+  </body>
+</html>

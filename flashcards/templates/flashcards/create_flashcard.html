@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Flashcard</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+        background: #f8f9fa;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        font-weight: bold;
+        margin-top: 1rem;
+      }
+      input[type="text"],
+      select,
+      textarea,
+      input[type="file"] {
+        padding: 8px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+      }
+      button {
+        margin-top: 1.5rem;
+        padding: 10px;
+        font-size: 1rem;
+        background: #a78bfa;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      a {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+        color: #6b46c1;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>✨ Create New Card</h1>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">Save Card</button>
+      </form>
+      <a href="{% url 'flashcard_list' %}">← Cancel</a>
+    </div>
+  </body>
+</html>
