@@ -10,4 +10,4 @@ An educational Django web app designed to help medical students master terminolo
 
 ---
 
-🧠 Built with love by **Dr. Jose Lema Alarcón** and medical students at **ESPE - Ecuador**.
+🧠 Built with ♥️ by **Dr. Jose Lema Alarcón** and medical students at **ESPE - Ecuador**.
