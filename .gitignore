@@ -8,8 +8,10 @@ __pycache__/
 *.sqlite3
 
 # Media
-/media/
-media/
+# Ignore everything in media except .gitkeep files
+media/*
+!media/card_audio/.gitkeep
+!media/card_images/.gitkeep
 
 # Virtual environments
 .venv/
