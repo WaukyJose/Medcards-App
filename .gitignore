@@ -1,7 +1,48 @@
-.qodo
+# Compiled Python files
 *.pyc
 __pycache__/
+*.py[cod]
+*.pyo
+
+# SQLite DB
 *.sqlite3
+
+# Media
 /media/
+media/
+
+# Virtual environments
+.venv/
+venv/
 /venv/
+
+# Env files
 .env
+*.env
+
+# Django migrations
+*/migrations/__pycache__/
+
+# Editors
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage & test
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Static (optional)
+staticfiles/
+
+# Node (if using JS tools)
+node_modules/
+package-lock.json
